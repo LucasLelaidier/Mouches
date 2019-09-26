@@ -1,3 +1,3 @@
-import cv2
+from PyQt5.Qt import PYQT_VERSION_STR
 
-print(cv2.__version__)
+print("PyQt version:", PYQT_VERSION_STR)
