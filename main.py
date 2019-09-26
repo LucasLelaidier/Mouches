@@ -1,3 +1,3 @@
 import cv2
 
-print(cv2.__VERSION__)
+print(cv2.__version__)
