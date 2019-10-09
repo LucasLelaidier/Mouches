@@ -56,6 +56,15 @@
 				<plugin>
 					<artifactId>maven-jar-plugin</artifactId>
 					<version>3.0.2</version>
+					<configuration>
+					<archive>
+						<!-- Création du Manifest pour la définition de la classe Main -->
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>com.polytech.app.Main</mainClass>
+						</manifest>
+					</archive>
+                </configuration>
 				</plugin>
 				<plugin>
 					<artifactId>maven-install-plugin</artifactId>

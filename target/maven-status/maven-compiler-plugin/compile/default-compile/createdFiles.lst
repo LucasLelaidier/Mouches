@@ -1,1 +1,2 @@
-com\polytech\app\App.class
+app\Main.class
+app\SampleController.class
