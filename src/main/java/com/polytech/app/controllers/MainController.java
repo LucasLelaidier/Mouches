@@ -1,4 +1,4 @@
-package com.polytech.app;
+package com.polytech.app.controllers;
 
 import java.awt.Label;
 import java.awt.image.BufferedImage;
