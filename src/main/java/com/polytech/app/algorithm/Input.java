@@ -1,4 +1,4 @@
-package main.java.com.polytech.app.algorithm;
+package com.polytech.app.algorithm;
 
 /**
  * The object that an algorithm must use as entry parameter.

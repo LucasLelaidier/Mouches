@@ -61,7 +61,7 @@
 						<!-- Création du Manifest pour la définition de la classe Main -->
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>main.java.com.polytech.app.Main</mainClass>
+							<mainClass>com.polytech.app.Main</mainClass>
 						</manifest>
 					</archive>
                 </configuration>

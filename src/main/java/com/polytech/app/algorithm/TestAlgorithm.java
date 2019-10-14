@@ -1,4 +1,4 @@
-package main.java.com.polytech.app.algorithm;
+package com.polytech.app.algorithm;
 
 public class TestAlgorithm implements Algorithm {
 

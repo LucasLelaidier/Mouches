@@ -1,11 +1,6 @@
-package test.java.com.polytech.app.algorithm;
+package com.polytech.app.algorithm;
 
 import org.junit.Test;
-
-import main.java.com.polytech.app.algorithm.Algorithm;
-import main.java.com.polytech.app.algorithm.Input;
-import main.java.com.polytech.app.algorithm.Output;
-import main.java.com.polytech.app.algorithm.TestAlgorithm;
 
 import static org.junit.Assert.*;
 

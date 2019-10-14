@@ -1,4 +1,4 @@
-package test.java.com.polytech.app;
+package com.polytech.app;
 
 import static org.junit.Assert.assertTrue;
 
