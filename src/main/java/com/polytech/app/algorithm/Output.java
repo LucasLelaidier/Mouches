@@ -1,4 +1,4 @@
-package com.polytech.app.algorithm;
+package main.java.com.polytech.app.algorithm;
 
 /**
  * The object that an algorithm must return after complete an image processing.

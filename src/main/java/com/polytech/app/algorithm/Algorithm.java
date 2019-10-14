@@ -1,4 +1,4 @@
-package com.polytech.app.algorithm;
+package main.java.com.polytech.app.algorithm;
 
 public interface Algorithm {
 

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.input.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.161" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.com.polytech.app.MainController">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <MenuBar prefHeight="32.0" prefWidth="600.0">
+               <menus>
+                  <Menu mnemonicParsing="false" text="File">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#ouvrirImage" text="Open">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" text="Close" />
+                     </items>
+                  </Menu>
+               </menus>
+            </MenuBar>
+            <HBox prefHeight="400.0" prefWidth="600.0">
+               <children>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="imageAnalisee" fitHeight="339.0" fitWidth="362.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+                  <VBox prefHeight="400.0" prefWidth="255.0">
+                     <children>
+                        <HBox prefHeight="116.0" prefWidth="238.0">
+                           <children>
+                              <AnchorPane prefHeight="116.0" prefWidth="238.0">
+                                 <children>
+                                    <Slider fx:id="sliderZoom" layoutY="20.0" prefHeight="18.0" prefWidth="239.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                    <Text layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zoom :" />
+                                    <Label fx:id="labelZoom" layoutX="175.0" layoutY="-1.0" prefHeight="21.0" prefWidth="60.0" text="0 %"/>
+                                 </children>
+                              </AnchorPane>
+                           </children></HBox>
+                        <HBox prefHeight="112.0" prefWidth="238.0" />
+                        <HBox prefHeight="104.0" prefWidth="238.0" />
+                        <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="249.0" text="Traitement" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
