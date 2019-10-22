@@ -7,6 +7,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXMLLoader;
 
 import org.bytedeco.opencv.opencv_core.*;
+import org.opencv.imgproc.Imgproc;
+
 import static org.bytedeco.opencv.global.opencv_imgproc.*;
 import static org.bytedeco.opencv.global.opencv_imgcodecs.*;
 
@@ -29,10 +31,18 @@ public class Main /*extends Application*/ {
 	public static void main(String[] args) {
 		// launch(args);
 
-		Mat image = imread("D:\\Lucas\\Pictures\\11402933_845908588820714_5708211936915400943_n.jpg");
+		Mat image = imread("C:\\Users\\lucas\\Pictures\\eggs.png");
+		Mat greyscale = new Mat();
+		Mat edges = new Mat();
+
 		if (image != null) {
-			GaussianBlur(image, image, new Size(51, 51), 0);
-			imwrite("D:\\Lucas\\Pictures\\blured-bg.jpg", image);
+			cvtColor(image, greyscale, COLOR_BGR2GRAY); // Conversion de l'image en noir et blanc
+
+			double highThreshold = threshold(greyscale, new Mat(), 0, 255, THRESH_BINARY + THRESH_OTSU);
+			double lowThreshold = 0.5 * highThreshold;
+
+			Canny(greyscale, edges, lowThreshold, highThreshold);
+			imwrite("C:\\Users\\lucas\\Pictures\\edges.jpg", edges);
 		}
 	}
 }
