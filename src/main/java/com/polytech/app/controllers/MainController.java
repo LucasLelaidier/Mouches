@@ -1,6 +1,6 @@
 package com.polytech.app.controllers;
 
-import java.awt.Label;
+import javafx.scene.control.TextField;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,11 +19,18 @@ import javafx.stage.FileChooser;
 public class MainController {
 	@FXML
 	private ImageView imageAnalisee;
+
+	@FXML
 	private Slider sliderZoom;
-	private Label labelZoom;
-	
-	/*@FXML
-	private void */
+
+	@FXML
+	private TextField Treshold;
+
+	@FXML
+	private void initialize() {
+        Treshold.textProperty().addListener((observable, oldValue, newValue) -> sliderZoom.setValue(Double.parseDouble(newValue)));
+		sliderZoom.valueProperty().addListener((observable, oldValue, newValue) -> Treshold.setText(Double.toString(newValue.intValue())));
+	}
 
 	@FXML
 	private void ouvrirImage() throws IOException {
