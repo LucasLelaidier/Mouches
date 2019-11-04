@@ -14,6 +14,11 @@ public class Input {
     private String imagePath;
 
     /**
+     * What threshold we cant (in percentage).
+     */
+    private int threshold;
+
+    /**
      * Path of the image to process.
      * @param imagePath
      */
@@ -21,7 +26,16 @@ public class Input {
         this.imagePath = imagePath;
     }
 
+    public Input(String imagePath, int threshold) {
+        this.imagePath = imagePath;
+        this.threshold = threshold;
+    }
+
     public String getImagePath() {
         return imagePath;
+    }
+
+    public int getThreshold() {
+        return threshold;
     }
 }
