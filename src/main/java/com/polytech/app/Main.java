@@ -7,14 +7,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXMLLoader;
 
 import org.bytedeco.opencv.opencv_core.*;
-import org.opencv.imgproc.Imgproc;
 
 import static org.bytedeco.opencv.global.opencv_imgproc.*;
 import static org.bytedeco.opencv.global.opencv_imgcodecs.*;
 
 
-public class Main /*extends Application*/ {
-	/*@Override
+public class Main extends Application {
+	@Override
 	public void start(Stage primaryStage) {
 		try {
 			AnchorPane root = FXMLLoader.load(getClass().getResource("/vues.fxml"));
@@ -26,9 +25,10 @@ public class Main /*extends Application*/ {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 
 	public static void main(String[] args) {
+<<<<<<< HEAD
 		// launch(args);
 
 		Mat image = imread("D:\\Lucas\\Pictures\\eggs.png");
@@ -44,5 +44,8 @@ public class Main /*extends Application*/ {
 			Canny(greyscale, edges, lowThreshold, highThreshold);
 			imwrite("D:\\Lucas\\Pictures\\edges.jpg", edges);
 		}
+=======
+		launch(args);
+>>>>>>> fd2dec21d31acfcd398a7c6a0be97df4a86d7ba9
 	}
 }

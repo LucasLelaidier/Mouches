@@ -37,9 +37,14 @@
                            <children>
                               <AnchorPane prefHeight="116.0" prefWidth="238.0">
                                  <children>
-                                    <Slider fx:id="sliderZoom" layoutY="20.0" prefHeight="18.0" prefWidth="239.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                                    <Text layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zoom :" />
-                                    <Label fx:id="labelZoom" layoutX="175.0" layoutY="-1.0" prefHeight="21.0" prefWidth="60.0" text="0 %"/>
+                                    <HBox prefHeight="45.0" prefWidth="238.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <Text wrappingWidth="82.0" text="Seuil :"/>
+                                          <TextField fx:id="Treshold" prefHeight="31.0" prefWidth="87.0" text="0" />
+                                          <Text wrappingWidth="61.0" text="\%"/>
+                                       </children>
+                                    </HBox>
+                                    <Slider fx:id="sliderZoom" blockIncrement="10" layoutY="47.0" majorTickUnit="50" max="100" min="0" minorTickCount="5" prefHeight="18.0" prefWidth="239.0" showTickLabels="true" showTickMarks="true" value="0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                            </children></HBox>
