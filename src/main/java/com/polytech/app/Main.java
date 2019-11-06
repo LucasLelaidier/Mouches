@@ -31,7 +31,7 @@ public class Main /*extends Application*/ {
 	public static void main(String[] args) {
 		// launch(args);
 
-		Mat image = imread("C:\\Users\\lucas\\Pictures\\eggs.png");
+		Mat image = imread("D:\\Lucas\\Pictures\\eggs.png");
 		Mat greyscale = new Mat();
 		Mat edges = new Mat();
 
@@ -42,7 +42,7 @@ public class Main /*extends Application*/ {
 			double lowThreshold = 0.5 * highThreshold;
 
 			Canny(greyscale, edges, lowThreshold, highThreshold);
-			imwrite("C:\\Users\\lucas\\Pictures\\edges.jpg", edges);
+			imwrite("D:\\Lucas\\Pictures\\edges.jpg", edges);
 		}
 	}
 }
