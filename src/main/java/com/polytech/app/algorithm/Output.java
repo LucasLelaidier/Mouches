@@ -16,7 +16,7 @@ public class Output {
     /**
      * The time taken by the algorithm to complete the image processing in ms
      */
-    private int duration;
+    private long duration;
 
     /**
      * The path of the new image
@@ -30,7 +30,7 @@ public class Output {
      * @param duration
      * @param imagePath
      */
-    public Output(int eggNumber, int duration, String imagePath) {
+    public Output(int eggNumber, long duration, String imagePath) {
         super();
         this.eggNumber = eggNumber;
         this.duration = duration;
@@ -41,7 +41,7 @@ public class Output {
         return eggNumber;
     }
 
-    public int getDuration() {
+    public long getDuration() {
         return duration;
     }
 

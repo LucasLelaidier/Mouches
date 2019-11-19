@@ -1,8 +1,6 @@
 package com.polytech.app.controllers;
 
-import com.polytech.app.algorithm.Input;
-import com.polytech.app.algorithm.Output;
-import com.polytech.app.algorithm.TestAlgorithm;
+import com.polytech.app.algorithm.*;
 import javafx.scene.control.TextField;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -17,7 +15,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class MainController {
 	@FXML
@@ -27,23 +27,25 @@ public class MainController {
 	private Slider sliderZoom;
 
 	@FXML
-	private TextField Treshold;
+	private TextField treshold;
 
 	private String image;
 
+	private Stage stage;
+
 	@FXML
 	private void initialize() {
-        Treshold.textProperty().addListener((observable, oldValue, newValue) -> {
+        treshold.textProperty().addListener((observable, oldValue, newValue) -> {
             sliderZoom.setValue(Double.parseDouble(newValue));
         });
 
 		sliderZoom.valueProperty().addListener((observable, oldValue, newValue) -> {
-		    Treshold.setText(Double.toString(newValue.intValue()));
+		    treshold.setText(Double.toString(newValue.intValue()));
         });
 
         sliderZoom.setOnMouseReleased(event -> {
             if(image != null) {
-                TestAlgorithm algo = new TestAlgorithm();
+                Algorithm algo = new LaplacianAlgorithm();
 
                 Output out = algo.run(new Input(image, (int) sliderZoom.getValue()));
 
@@ -69,9 +71,15 @@ public class MainController {
 			BufferedImage bufferedImage = ImageIO.read(file);
 			Image image = SwingFXUtils.toFXImage(bufferedImage, null);
 			imageAnalisee.setImage(image);
+			imageAnalisee.fitWidthProperty().bind(stage.widthProperty());
 			this.image = file.getAbsolutePath();
 		} catch (IOException ex) {
 			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
 		}
+	}
+
+	public void setStage(Stage stage)
+	{
+		this.stage = stage;
 	}
 }
