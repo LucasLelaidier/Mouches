@@ -1,12 +1,16 @@
 package com.polytech.app.controllers;
 
 import com.polytech.app.algorithm.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,8 +51,12 @@ public class MainController {
 
 	private Stage stage;
 
+	private Algorithm choosedAlgorithm;
+
 	@FXML
 	private void initialize() {
+        choosedAlgorithm = new TestAlgorithm();
+
         treshold.textProperty().addListener((observable, oldValue, newValue) -> {
             sliderZoom.setValue(Double.parseDouble(newValue));
         });
@@ -59,9 +67,7 @@ public class MainController {
 
         sliderZoom.setOnMouseReleased(event -> {
             if(image != null) {
-                Algorithm algo = new LaplacianAlgorithm();
-
-                Output out = algo.run(new Input(image, (int) sliderZoom.getValue()));
+                Output out = choosedAlgorithm.run(new Input(image, (int) sliderZoom.getValue()));
 
                 Image fxImage = new Image("file:" + out.getImagePath());
                 imageAnalisee.setImage(fxImage);
@@ -90,11 +96,26 @@ public class MainController {
                 if(racineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE)
                 {
                     final Element algo = (Element) racineNoeuds.item(i);
-                    algorithmMenu.getItems().add(new MenuItem(algo.getAttribute("name")));
+                    MenuItem menuItem = new MenuItem(algo.getAttribute("name"));
+                    algorithmMenu.getItems().add(menuItem);
+
+                    String path = algo.getAttribute("path");
+                    Class algorithmClass = Class.forName(path);
+                    Constructor constructor = algorithmClass.getConstructor();
+
+                    Algorithm algorithmInstance = (Algorithm) constructor.newInstance();
+
+                    menuItem.setOnAction(event -> choosedAlgorithm = algorithmInstance);
                 }
             }
         }
-        catch (ParserConfigurationException | SAXException | IOException e) {
+        catch (ParserConfigurationException | SAXException | IOException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
     }
