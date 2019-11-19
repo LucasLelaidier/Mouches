@@ -62,9 +62,8 @@
               <MenuItem onAction="#ouvrirImage" mnemonicParsing="false" text="Ouvrir" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu fx:id="algorithmMenu" mnemonicParsing="false" text="Algorithmes">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
