@@ -3,9 +3,8 @@ package com.polytech.app.controllers;
 import com.polytech.app.algorithm.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -22,10 +21,10 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
-import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.w3c.dom.Document;
@@ -46,6 +45,9 @@ public class MainController {
 
 	@FXML
     private Menu algorithmMenu;
+
+	@FXML
+    private GridPane gridPane;
 
 	private String image;
 
@@ -74,8 +76,10 @@ public class MainController {
             }
         });
 
-        // A remettre dans un controlleur dédié
+        chooseAlgorithm();
+    }
 
+    private void chooseAlgorithm() {
         // Getting factory used to create XML parser
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -106,6 +110,18 @@ public class MainController {
                     Algorithm algorithmInstance = (Algorithm) constructor.newInstance();
 
                     menuItem.setOnAction(event -> choosedAlgorithm = algorithmInstance);
+
+                    final NodeList parameters = algo.getElementsByTagName("parameter");
+                    final int nbParameters = parameters.getLength();
+
+                    for(int j = 0; j < nbParameters; j++) {
+                        final Element parameter = (Element) parameters.item(j);
+
+                        if(parameter.getAttribute("type").equals("slider")) {
+                            gridPane.add(new Label(parameter.getAttribute("label")), 2, j * 2, 1, 1);
+                            gridPane.add(new Slider(0, 100, 1), 3, j * 2, 1, 1);
+                        }
+                    }
                 }
             }
         }
@@ -113,7 +129,7 @@ public class MainController {
             e.printStackTrace();
         }
         catch (ClassNotFoundException e) {
-            e.printStackTrace();
+
         }
         catch (NoSuchMethodException e) {
             e.printStackTrace();
