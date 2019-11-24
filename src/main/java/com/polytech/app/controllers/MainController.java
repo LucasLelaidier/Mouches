@@ -109,7 +109,8 @@ public class MainController {
 
                     Algorithm algorithmInstance = (Algorithm) constructor.newInstance();
 
-                    menuItem.setOnAction(event -> choosedAlgorithm = algorithmInstance);
+                    ArrayList<javafx.scene.Node> labelList = new ArrayList<>();
+                    ArrayList<javafx.scene.Node> nodeList = new ArrayList<>();
 
                     final NodeList parameters = algo.getElementsByTagName("parameter");
                     final int nbParameters = parameters.getLength();
@@ -118,10 +119,18 @@ public class MainController {
                         final Element parameter = (Element) parameters.item(j);
 
                         if(parameter.getAttribute("type").equals("slider")) {
-                            gridPane.add(new Label(parameter.getAttribute("label")), 2, j * 2, 1, 1);
-                            gridPane.add(new Slider(0, 100, 1), 3, j * 2, 1, 1);
+                            labelList.add(new Label(parameter.getAttribute("label")));
+                            nodeList.add(new Slider(0, 100, 1));
                         }
                     }
+
+                    menuItem.setOnAction(event -> {
+                        choosedAlgorithm = algorithmInstance;
+                        for(int index = 0 ; index < labelList.size() ; index++) {
+                            gridPane.add(labelList.get(index), 2, index * 2 + 6, 1, 1);
+                            gridPane.add(nodeList.get(index), 3, index * 2 + 6, 1, 1);
+                        }
+                    });
                 }
             }
         }
