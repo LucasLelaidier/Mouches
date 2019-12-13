@@ -8,14 +8,14 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:controller="com.polytech.app.controllers.MainController" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="borderPane" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.polytech.app.controllers.MainController">
    <right>
       <AnchorPane prefHeight="374.0" prefWidth="229.0" BorderPane.alignment="CENTER">
          <children>
@@ -51,15 +51,12 @@
          </children>
       </AnchorPane>
    </right>
-   <center>
-      <ImageView fx:id="imageAnalisee" fitHeight="248.0" fitWidth="318.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
-   </center>
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="Fichier">
             <items>
-              <MenuItem onAction="#ouvrirImage" mnemonicParsing="false" text="Ouvrir" />
+              <MenuItem mnemonicParsing="false" onAction="#ouvrirImage" text="Ouvrir" />
             </items>
           </Menu>
           <Menu fx:id="algorithmMenu" mnemonicParsing="false" text="Algorithmes">
@@ -74,4 +71,7 @@
         </menus>
       </MenuBar>
    </top>
+   <center>
+      <VBox fx:id="vbox" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+   </center>
 </BorderPane>

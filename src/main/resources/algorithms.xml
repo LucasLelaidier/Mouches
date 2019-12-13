@@ -7,7 +7,7 @@
 
     <algorithm name="Laplacien" path="com.polytech.app.algorithm.LaplacianAlgorithm">
         <parameters>
-            <parameter name="kernel-size" label="Taille du noyau" type="slider"></parameter>
+            <parameter name="kernel-size" label="Taille du msque" type="slider"></parameter>
         </parameters>
     </algorithm>
 </algorithms>
