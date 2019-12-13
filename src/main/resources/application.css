@@ -1,1 +1,33 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.menu-item, .context-menu {
+    -fx-background-color: #40444B;
+}
+
+.menu .label
+{
+    -fx-text-fill: #DCDDDE;
+}
+
+.text-field {
+    -fx-border-color: transparent;
+    -fx-background-color: #40444B;
+    -fx-text-fill: #DCDDDE;
+}
+
+.slider {
+    -fx-show-tick-marks: false;
+}
+
+.slider .track {
+    -fx-background-color: #40444B;
+}
+
+.slider .thumb {
+    -fx-background-color: #DCDDDE;
+}
+
+.button {
+    -fx-background-color: #677BC4;
+    -fx-text-fill: white;
+}
