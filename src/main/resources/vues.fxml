@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
+<?import javafx.scene.layout.VBox?>
 <BorderPane maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #36393F;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.polytech.app.controllers.MainController">
    <right>
       <AnchorPane prefHeight="375.0" prefWidth="281.0" style="-fx-background-color: #2F3136;" BorderPane.alignment="CENTER">
@@ -53,7 +54,7 @@
       </AnchorPane>
    </right>
    <center>
-      <ImageView fx:id="imageAnalisee" fitHeight="248.0" fitWidth="318.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+       <VBox fx:id="vbox" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
    </center>
    <top>
       <MenuBar style="-fx-background-color: #202225;" BorderPane.alignment="CENTER">

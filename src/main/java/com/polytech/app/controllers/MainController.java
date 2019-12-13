@@ -1,16 +1,14 @@
 package com.polytech.app.controllers;
 
 import com.polytech.app.algorithm.*;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.*;
-
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,10 +19,12 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.w3c.dom.Document;
@@ -34,37 +34,42 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class MainController {
-	@FXML
-	private ImageView imageAnalisee;
+    @FXML
+    private BorderPane borderPane;
 
-	@FXML
-	private Slider sliderZoom;
+    @FXML
+    private Slider sliderZoom;
 
-	@FXML
-	private TextField treshold;
+    @FXML
+    private TextField treshold;
 
-	@FXML
+    @FXML
     private Menu algorithmMenu;
 
-	@FXML
-    private GridPane gridPane;
+    @FXML
+    private AnchorPane imagePane;
 
-	private String image;
+    @FXML
+    private VBox vbox;
 
-	private Stage stage;
+    private ImageView imageAnalisee;
 
-	private Algorithm choosedAlgorithm;
+    private String image;
 
-	@FXML
-	private void initialize() {
+    private Stage stage;
+
+    private Algorithm choosedAlgorithm;
+
+    @FXML
+    private void initialize() {
         choosedAlgorithm = new TestAlgorithm();
 
         treshold.textProperty().addListener((observable, oldValue, newValue) -> {
             sliderZoom.setValue(Double.parseDouble(newValue));
         });
 
-		sliderZoom.valueProperty().addListener((observable, oldValue, newValue) -> {
-		    treshold.setText(Double.toString(newValue.intValue()));
+        sliderZoom.valueProperty().addListener((observable, oldValue, newValue) -> {
+            treshold.setText(Double.toString(newValue.intValue()));
         });
 
         sliderZoom.setOnMouseReleased(event -> {
@@ -76,10 +81,8 @@ public class MainController {
             }
         });
 
-        chooseAlgorithm();
-    }
+        // A remettre dans un controlleur dédié
 
-    private void chooseAlgorithm() {
         // Getting factory used to create XML parser
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -109,28 +112,7 @@ public class MainController {
 
                     Algorithm algorithmInstance = (Algorithm) constructor.newInstance();
 
-                    ArrayList<javafx.scene.Node> labelList = new ArrayList<>();
-                    ArrayList<javafx.scene.Node> nodeList = new ArrayList<>();
-
-                    final NodeList parameters = algo.getElementsByTagName("parameter");
-                    final int nbParameters = parameters.getLength();
-
-                    for(int j = 0; j < nbParameters; j++) {
-                        final Element parameter = (Element) parameters.item(j);
-
-                        if(parameter.getAttribute("type").equals("slider")) {
-                            labelList.add(new Label(parameter.getAttribute("label")));
-                            nodeList.add(new Slider(0, 100, 1));
-                        }
-                    }
-
-                    menuItem.setOnAction(event -> {
-                        choosedAlgorithm = algorithmInstance;
-                        for(int index = 0 ; index < labelList.size() ; index++) {
-                            gridPane.add(labelList.get(index), 2, index * 2 + 6, 1, 1);
-                            gridPane.add(nodeList.get(index), 3, index * 2 + 6, 1, 1);
-                        }
-                    });
+                    menuItem.setOnAction(event -> choosedAlgorithm = algorithmInstance);
                 }
             }
         }
@@ -138,38 +120,41 @@ public class MainController {
             e.printStackTrace();
         }
         catch (ClassNotFoundException e) {
-
+            e.printStackTrace();
         }
         catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
     }
 
-	@FXML
-	private void ouvrirImage() {
-		FileChooser fileChooser = new FileChooser();
+    @FXML
+    private void ouvrirImage() {
+        FileChooser fileChooser = new FileChooser();
 
-		// Set extension filter
-		FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
-		FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
-		fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
+        // Set extension filter
+        FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
+        FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
+        fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
 
-		// Show open file dialog
-		File file = fileChooser.showOpenDialog(null);
+        // Show open file dialog
+        File file = fileChooser.showOpenDialog(null);
 
-		try {
-			BufferedImage bufferedImage = ImageIO.read(file);
-			Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-			imageAnalisee.setImage(image);
-			imageAnalisee.fitWidthProperty().bind(stage.widthProperty());
-			this.image = file.getAbsolutePath();
-		} catch (IOException ex) {
-			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-		}
-	}
+        try {
+            BufferedImage bufferedImage = ImageIO.read(file);
+            Image image = SwingFXUtils.toFXImage(bufferedImage, null);
 
-	public void setStage(Stage stage)
-	{
-		this.stage = stage;
-	}
+            imageAnalisee = new ImageView(image);
+            imageAnalisee.setPreserveRatio(true);
+            imageAnalisee.fitHeightProperty().bind(vbox.heightProperty());
+            vbox.getChildren().addAll(imageAnalisee);
+            this.image = file.getAbsolutePath();
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void setStage(Stage stage)
+    {
+        this.stage = stage;
+    }
 }
