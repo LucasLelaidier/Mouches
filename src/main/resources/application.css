@@ -1,8 +1,14 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
 .menu-item, .context-menu {
-    -fx-background-color: #40444B;
+    -fx-background-color: #2F3136;
 }
+
+.menu-item:hover {
+    -fx-background-color: #40444B;
+    -fx-text-fill: white;
+}
+
 
 .menu .label
 {
@@ -24,7 +30,7 @@
 }
 
 .slider .thumb {
-    -fx-background-color: #DCDDDE;
+    -fx-background-color: #677BC4;
 }
 
 .button {

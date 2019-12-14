@@ -20,10 +20,8 @@ public class Main extends Application {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader();
 			BorderPane root = fxmlLoader.load(getClass().getResource("/vues.fxml").openStream());
-			MainController controller = fxmlLoader.getController();
-			controller.setStage(primaryStage);
 
-			Scene scene = new Scene(root,600,400);
+			Scene scene = new Scene(root,1000,600);
 			scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();

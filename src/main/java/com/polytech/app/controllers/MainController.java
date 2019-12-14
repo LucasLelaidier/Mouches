@@ -1,14 +1,14 @@
 package com.polytech.app.controllers;
 
 import com.polytech.app.algorithm.*;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,12 +19,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
-import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.w3c.dom.Document;
@@ -35,9 +32,6 @@ import org.xml.sax.SAXException;
 
 public class MainController {
     @FXML
-    private BorderPane borderPane;
-
-    @FXML
     private Slider sliderZoom;
 
     @FXML
@@ -47,21 +41,23 @@ public class MainController {
     private Menu algorithmMenu;
 
     @FXML
-    private AnchorPane imagePane;
+    private VBox vbox;
 
     @FXML
-    private VBox vbox;
+    private CheckBox showEdgedImageCheckBox;
 
     private ImageView imageAnalisee;
 
     private String image;
 
-    private Stage stage;
+    private String edgedImage;
 
     private Algorithm choosedAlgorithm;
 
     @FXML
     private void initialize() {
+        vbox.setMinSize(0, 0);
+
         choosedAlgorithm = new TestAlgorithm();
 
         treshold.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -75,9 +71,12 @@ public class MainController {
         sliderZoom.setOnMouseReleased(event -> {
             if(image != null) {
                 Output out = choosedAlgorithm.run(new Input(image, (int) sliderZoom.getValue()));
+                edgedImage = out.getImagePath();
 
-                Image fxImage = new Image("file:" + out.getImagePath());
+                Image fxImage = new Image("file:" + edgedImage);
                 imageAnalisee.setImage(fxImage);
+
+                showEdgedImageCheckBox.setSelected(false);
             }
         });
 
@@ -116,13 +115,7 @@ public class MainController {
                 }
             }
         }
-        catch (ParserConfigurationException | SAXException | IOException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        catch (NoSuchMethodException e) {
+        catch (ParserConfigurationException | SAXException | IOException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -132,29 +125,43 @@ public class MainController {
         FileChooser fileChooser = new FileChooser();
 
         // Set extension filter
-        FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
-        FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
-        fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
+        FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("Images", "*.JPG", "*.PNG", "*.GIF");
+        fileChooser.getExtensionFilters().addAll(extFilterJPG);
 
         // Show open file dialog
         File file = fileChooser.showOpenDialog(null);
 
         try {
-            BufferedImage bufferedImage = ImageIO.read(file);
-            Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+            if(file != null) {
+                BufferedImage bufferedImage = ImageIO.read(file);
+                Image image = SwingFXUtils.toFXImage(bufferedImage, null);
 
-            imageAnalisee = new ImageView(image);
-            imageAnalisee.setPreserveRatio(true);
-            imageAnalisee.fitHeightProperty().bind(vbox.heightProperty());
-            vbox.getChildren().addAll(imageAnalisee);
-            this.image = file.getAbsolutePath();
+                vbox.getChildren().remove(imageAnalisee);
+
+                imageAnalisee = new ImageView(image);
+                imageAnalisee.setPreserveRatio(true);
+                imageAnalisee.fitHeightProperty().bind(vbox.heightProperty());
+                imageAnalisee.fitWidthProperty().bind(vbox.widthProperty());
+
+                vbox.getChildren().addAll(imageAnalisee);
+
+                this.image = file.getAbsolutePath();
+            }
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void setStage(Stage stage)
-    {
-        this.stage = stage;
+    @FXML
+    public void changeImage() {
+        if(image != null && edgedImage != null) {
+            if(showEdgedImageCheckBox.isSelected()) {
+                Image fxImage = new Image("file:" + image);
+                imageAnalisee.setImage(fxImage);
+            } else {
+                Image fxImage = new Image("file:" + edgedImage);
+                imageAnalisee.setImage(fxImage);
+            }
+        }
     }
 }
