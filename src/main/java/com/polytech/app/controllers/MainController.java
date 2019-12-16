@@ -2,7 +2,9 @@ package com.polytech.app.controllers;
 
 import com.polytech.app.algorithm.*;
 import javafx.scene.control.*;
-
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +23,9 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -29,14 +34,32 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class MainController {
-    @FXML
-    private Slider sliderZoom;
+
+  @FXML
+  private Slider sliderZoom;
+  
+	@FXML
+	private BorderPane borderPane;
+
+	@FXML
+	private Slider sliderZoom;
 
     @FXML
     private TextField treshold;
 
     @FXML
     private Menu algorithmMenu;
+
+	@FXML
+	private Menu algorithmMenu;
+
+	@FXML
+	private AnchorPane imagePane;
+
+	@FXML
+	private VBox vbox;
+
+	private ImageView imageAnalisee;
 
     @FXML
     private VBox vbox;
@@ -200,4 +223,35 @@ public class MainController {
             }
         }
     }
+
+	@FXML
+	private void ouvrirImage() {
+		FileChooser fileChooser = new FileChooser();
+
+		// Set extension filter
+		FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
+		FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
+		fileChooser.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
+
+		// Show open file dialog
+		File file = fileChooser.showOpenDialog(null);
+
+		try {
+			BufferedImage bufferedImage = ImageIO.read(file);
+			Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+
+			imageAnalisee = new ImageView(image);
+			imageAnalisee.setPreserveRatio(true);
+			imageAnalisee.fitHeightProperty().bind(vbox.heightProperty());
+			vbox.getChildren().addAll(imageAnalisee);
+			this.image = file.getAbsolutePath();
+		} catch (IOException ex) {
+			Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+
+	public void setStage(Stage stage)
+	{
+		this.stage = stage;
+	}
 }
