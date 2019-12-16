@@ -4,14 +4,23 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class TestAlgorithmTest {
+public class TestAlgorithmTest
+{
+
+    @Test(expected = IllegalArgumentException.class)
+    public void wrongImagePathThrowsIllegalArgumentException()
+    {
+        Algorithm algo = new TestAlgorithm();
+        algo.run(new Input("wrongimagepath"));
+    }
 
     @Test
-    public void run() {
+    public void correctImagePathReturnOutputObject()
+    {
         Algorithm algo = new TestAlgorithm();
 
-        Output output = algo.run(new Input("random/image.png"));
+        Output output = algo.run(new Input("src/test/resources/mouches.png"));
 
-        assertTrue(output.getEggNumber() > 0);
+        assertTrue(output != null);
     }
 }

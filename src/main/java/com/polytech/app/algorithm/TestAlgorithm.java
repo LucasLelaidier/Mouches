@@ -13,30 +13,33 @@ import static org.bytedeco.opencv.global.opencv_imgproc.Canny;
 public class TestAlgorithm implements Algorithm {
 
     @Override
-    public Output run(Input input) {
+    public Output run(Input input) throws IllegalArgumentException {
         long startTime = System.nanoTime();
 
         Mat image = imread(input.getImagePath());
+
+        if(image == null) {
+        	throw new IllegalArgumentException("The provided image path is not correct");
+		}
+
         Mat greyscale = new Mat();
         Mat edges = new Mat();
 
         Path path = Paths.get(input.getImagePath());
         String newPath = path.getParent().toString() + "\\EDGED_" + path.getFileName();
 
-        if (image != null) {
-            // On converti l'image en noir et blanc
-            cvtColor(image, greyscale, COLOR_BGR2GRAY);
+		// On converti l'image en noir et blanc
+		cvtColor(image, greyscale, COLOR_BGR2GRAY);
 
-            // On récupère la valeur de seuil en pourcentage passée en input
-            // et on la choisis comme seuil bas et on la multiplie par
-            // trois pour obtenir le seuil haut
-            double lowThreshold = input.getThreshold();
-            double highThreshold = lowThreshold * 3;
+		// On récupère la valeur de seuil en pourcentage passée en input
+		// et on la choisis comme seuil bas et on la multiplie par
+		// trois pour obtenir le seuil haut
+		double lowThreshold = input.getThreshold();
+		double highThreshold = lowThreshold * 3;
 
-            // On applicque l'alogirthme de detection de contours canny sur l'image
-            Canny(greyscale, edges, lowThreshold, highThreshold);
-            imwrite(newPath, edges);
-        }
+		// On applicque l'alogirthme de detection de contours canny sur l'image
+		Canny(greyscale, edges, lowThreshold, highThreshold);
+		imwrite(newPath, edges);
 
         long endTime = System.nanoTime();
 
