@@ -24,11 +24,16 @@ public class TestAlgorithm implements Algorithm {
         String newPath = path.getParent().toString() + "\\EDGED_" + path.getFileName();
 
         if (image != null) {
-            cvtColor(image, greyscale, COLOR_BGR2GRAY); // Conversion de l'image en noir et blanc
+            // On converti l'image en noir et blanc
+            cvtColor(image, greyscale, COLOR_BGR2GRAY);
 
+            // On récupère la valeur de seuil en pourcentage passée en input
+            // et on la choisis comme seuil bas et on la multiplie par
+            // trois pour obtenir le seuil haut
             double lowThreshold = input.getThreshold();
             double highThreshold = lowThreshold * 3;
 
+            // On applicque l'alogirthme de detection de contours canny sur l'image
             Canny(greyscale, edges, lowThreshold, highThreshold);
             imwrite(newPath, edges);
         }
