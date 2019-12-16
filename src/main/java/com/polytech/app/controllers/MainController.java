@@ -66,16 +66,12 @@ public class MainController {
         // Listener on threshold text area.
         // When we change the value of the
         // text area, the slider's value change.
-        treshold.textProperty().addListener((observable, oldValue, newValue) -> {
-            sliderZoom.setValue(Double.parseDouble(newValue));
-        });
+        treshold.textProperty().addListener((observable, oldValue, newValue) -> sliderZoom.setValue(Double.parseDouble(newValue)));
 
         // Listener on slider.
         // When we move the slider, the value of threshold
         // text area is updated with the value of the slider.
-        sliderZoom.valueProperty().addListener((observable, oldValue, newValue) -> {
-            treshold.setText(Double.toString(newValue.intValue()));
-        });
+        sliderZoom.valueProperty().addListener((observable, oldValue, newValue) -> treshold.setText(Double.toString(newValue.intValue())));
 
         // Listener on slider release.
         // Each time we release the slider, we update
@@ -129,12 +125,12 @@ public class MainController {
             if(file != null) {
                 // Read the image and transform it into javaFX image
                 BufferedImage bufferedImage = ImageIO.read(file);
-                Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+                Image fxImage = SwingFXUtils.toFXImage(bufferedImage, null);
 
                 // We remove actual image from interface
                 vbox.getChildren().remove(imageAnalisee);
 
-                imageAnalisee = new ImageView(image);
+                imageAnalisee = new ImageView(fxImage);
                 imageAnalisee.setPreserveRatio(true);
 
                 // Let the image resize following the window size
@@ -199,36 +195,34 @@ public class MainController {
     public void updateParameters(NodeList parameters, MenuItem menuItem, Algorithm algorithmInstance) {
         for (int i = 0; i < parameters.getLength(); i++) {
             // We search for the parameters node
-            if(parameters.item(i).getNodeType() == Node.ELEMENT_NODE) {
-                if(parameters.item(i).getNodeName().equals("parameters")) {
-                    final NodeList parametersList = parameters.item(i).getChildNodes();
-                    // Once we found it we parse all parameter node
-                    // and add the corresponding fx element to the gridpane
+            if(parameters.item(i).getNodeType() == Node.ELEMENT_NODE && parameters.item(i).getNodeName().equals("parameters")) {
+                final NodeList parametersList = parameters.item(i).getChildNodes();
+                // Once we found it we parse all parameter node
+                // and add the corresponding fx element to the gridpane
 
-                    int row = 1; // The row where we start to add parameters
-                    for (int j = 0; j < parametersList.getLength(); j++) {
-                        // Only cast elements else an error is raised
-                        if(parametersList.item(j).getNodeType() == Node.ELEMENT_NODE) {
-                            Element param = (Element) parametersList.item(j);
-                            if(param.getAttribute("type").equals("slider")) {
-                                // We fetch max and min range of slider
-                                // from the Slider node.
-                                String range = param.getAttribute("range");
-                                String[] ranges = range.split("-");
-                                int min = Integer.parseInt(ranges[0]);
-                                int max = Integer.parseInt(ranges[1]);
+                int row = 1; // The row where we start to add parameters
+                for (int j = 0; j < parametersList.getLength(); j++) {
+                    // Only cast elements else an error is raised
+                    if(parametersList.item(j).getNodeType() == Node.ELEMENT_NODE) {
+                        Element param = (Element) parametersList.item(j);
+                        if(param.getAttribute("type").equals("slider")) {
+                            // We fetch max and min range of slider
+                            // from the Slider node.
+                            String range = param.getAttribute("range");
+                            String[] ranges = range.split("-");
+                            int min = Integer.parseInt(ranges[0]);
+                            int max = Integer.parseInt(ranges[1]);
 
-                                // We set an onClick event on the menu :
-                                // onClick we change slider's max and min
-                                // and also change actual algorithm used
-                                // to the new one.
-                                menuItem.setOnAction(event -> {
-                                    sliderZoom.setMin(min);
-                                    sliderZoom.setMax(max);
-                                    sliderZoom.setMajorTickUnit(Math.round(max / 4));
-                                    choosedAlgorithm = algorithmInstance;
-                                });
-                            }
+                            // We set an onClick event on the menu :
+                            // onClick we change slider's max and min
+                            // and also change actual algorithm used
+                            // to the new one.
+                            menuItem.setOnAction(event -> {
+                                sliderZoom.setMin(min);
+                                sliderZoom.setMax(max);
+                                sliderZoom.setMajorTickUnit(Math.round(max / 4f));
+                                choosedAlgorithm = algorithmInstance;
+                            });
                         }
                     }
                 }

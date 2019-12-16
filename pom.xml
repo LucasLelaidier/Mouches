@@ -9,8 +9,7 @@
 	<version>1.0-SNAPSHOT</version>
 
 	<name>mouches</name>
-	<!-- FIXME change it to the project's website -->
-	<url></url>
+	<url> lucaslelaidier.fr </url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

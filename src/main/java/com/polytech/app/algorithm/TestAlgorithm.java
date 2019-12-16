@@ -13,7 +13,7 @@ import static org.bytedeco.opencv.global.opencv_imgproc.Canny;
 public class TestAlgorithm implements Algorithm {
 
     @Override
-    public Output run(Input input) throws IllegalArgumentException {
+    public Output run(Input input) {
         long startTime = System.nanoTime();
 
         Mat image = imread(input.getImagePath());
