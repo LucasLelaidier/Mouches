@@ -5,13 +5,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class TestAlgorithmTest
+public class LaplacianAlgorithmTest
 {
     private Algorithm algo;
 
     @Before
     public void initialize() {
-        algo = new TestAlgorithm();
+        algo = new LaplacianAlgorithm();
     }
 
     @Test(expected = IllegalArgumentException.class)

@@ -22,27 +22,29 @@ public class LaplacianAlgorithm implements Algorithm {
 		long startTime = System.nanoTime();
 
 		Mat image = imread(input.getImagePath());
+
+		if(image.data() == null) {
+			throw new IllegalArgumentException("The provided image path is not correct");
+		}
+
 		Mat greyscale = new Mat();
 		Mat edges = new Mat();
 
 		Path path = Paths.get(input.getImagePath());
 		String newPath = path.getParent().toString() + "\\EDGED_" + path.getFileName();
 
-		if (image != null) {
+		// On applique un flou gaussien à l'image afin de réduire
+		// le bruit et ainsi avoir une image plus nette
+		GaussianBlur(image, image, new Size(3, 3), 0, 0, Core.BORDER_DEFAULT); // Floutage de l'image pour réduire le bruit
 
-			// On applique un flou gaussien à l'image afin de réduire
-			// le bruit et ainsi avoir une image plus nette
-			GaussianBlur(image, image, new Size(3, 3), 0, 0, Core.BORDER_DEFAULT); // Floutage de l'image pour réduire le bruit
+		cvtColor(image, greyscale, COLOR_BGR2GRAY); // Conversion de l'image en noir et blanc
 
-			cvtColor(image, greyscale, COLOR_BGR2GRAY); // Conversion de l'image en noir et blanc
+		// Le parametre kernel doit etre impair et inferieur à 31
+		// donc on multiplie la valeur du slider (0 à 100) par 0.31
+		// et si le nombre est pair on lui ajoute 1 pour le rendre impair
+		Laplacian(greyscale, edges, ddepth, peerToOdd((int)(input.getThreshold() * 0.31)), scale, delta, Core.BORDER_DEFAULT);
 
-			// Le parametre kernel doit etre impair et inferieur à 31
-			// donc on multiplie la valeur du slider (0 à 100) par 0.31
-			// et si le nombre est pair on lui ajoute 1 pour le rendre impair
-			Laplacian(greyscale, edges, ddepth, peerToOdd((int)(input.getThreshold() * 0.31)), scale, delta, Core.BORDER_DEFAULT);
-
-			imwrite(newPath, edges);
-		}
+		imwrite(newPath, edges);
 
 		long endTime = System.nanoTime();
 

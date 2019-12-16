@@ -18,7 +18,7 @@ public class TestAlgorithm implements Algorithm {
 
         Mat image = imread(input.getImagePath());
 
-        if(image == null) {
+        if(image.data() == null) {
         	throw new IllegalArgumentException("The provided image path is not correct");
 		}
 

@@ -54,18 +54,32 @@ public class MainController {
 
     @FXML
     private void initialize() {
+        // We set vbox's minSize to 0, 0 in order to
+        // let their childrens shrink when the vbox shrinks.
         vbox.setMinSize(0, 0);
 
+        // We initialise the algorithm to TestAlgorithm
+        // so when the software is launched by default
+        // TestAlgorithm is selected
         choosedAlgorithm = new TestAlgorithm();
 
+        // Listener on threshold text area.
+        // When we change the value of the
+        // text area, the slider's value change.
         treshold.textProperty().addListener((observable, oldValue, newValue) -> {
             sliderZoom.setValue(Double.parseDouble(newValue));
         });
 
+        // Listener on slider.
+        // When we move the slider, the value of threshold
+        // text area is updated with the value of the slider.
         sliderZoom.valueProperty().addListener((observable, oldValue, newValue) -> {
             treshold.setText(Double.toString(newValue.intValue()));
         });
 
+        // Listener on slider release.
+        // Each time we release the slider, we update
+        // edged image with the new value of the slider.
         sliderZoom.setOnMouseReleased(event -> {
             if(image != null) {
                 Output out = choosedAlgorithm.run(new Input(image, (int) sliderZoom.getValue()));
@@ -113,13 +127,17 @@ public class MainController {
 
         try {
             if(file != null) {
+                // Read the image and transform it into javaFX image
                 BufferedImage bufferedImage = ImageIO.read(file);
                 Image image = SwingFXUtils.toFXImage(bufferedImage, null);
 
+                // We remove actual image from interface
                 vbox.getChildren().remove(imageAnalisee);
 
                 imageAnalisee = new ImageView(image);
                 imageAnalisee.setPreserveRatio(true);
+
+                // Let the image resize following the window size
                 imageAnalisee.fitHeightProperty().bind(vbox.heightProperty());
                 imageAnalisee.fitWidthProperty().bind(vbox.widthProperty());
 
@@ -152,16 +170,27 @@ public class MainController {
             // For each childs if its a node (an algorithm) we add its name to algorithm menu
             if(racineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE)
             {
+                // We get the node containing the algorithm data.
                 final Element algo = (Element) racineNoeuds.item(i);
+
+                // Adding the algorithm to the menu
                 MenuItem menuItem = new MenuItem(algo.getAttribute("name"));
                 algorithmMenu.getItems().add(menuItem);
 
+                // Then we have to instantiate and object
+                // of the type described in the node data.
+                // We use java forName in order to do that.
                 String path = algo.getAttribute("path");
                 Class algorithmClass = Class.forName(path);
+
+                // We get algorithm's constructor
                 Constructor constructor = algorithmClass.getConstructor();
 
+                // Then we can instantiate the object
                 Algorithm algorithmInstance = (Algorithm) constructor.newInstance();
 
+                // We change the parameters of the interface
+                // depending of chosen algorithm.
                 updateParameters(algo.getChildNodes(), menuItem, algorithmInstance);
             }
         }
@@ -182,11 +211,17 @@ public class MainController {
                         if(parametersList.item(j).getNodeType() == Node.ELEMENT_NODE) {
                             Element param = (Element) parametersList.item(j);
                             if(param.getAttribute("type").equals("slider")) {
+                                // We fetch max and min range of slider
+                                // from the Slider node.
                                 String range = param.getAttribute("range");
                                 String[] ranges = range.split("-");
                                 int min = Integer.parseInt(ranges[0]);
                                 int max = Integer.parseInt(ranges[1]);
 
+                                // We set an onClick event on the menu :
+                                // onClick we change slider's max and min
+                                // and also change actual algorithm used
+                                // to the new one.
                                 menuItem.setOnAction(event -> {
                                     sliderZoom.setMin(min);
                                     sliderZoom.setMax(max);
