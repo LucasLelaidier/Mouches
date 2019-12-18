@@ -10,4 +10,9 @@
             <parameter name="kernel-size" label="Taille du noyau" type="slider" range="0-30"></parameter>
         </parameters>
     </algorithm>
+    <algorithm name="Blob" path="com.polytech.app.algorithm.BlobAlgorithm">
+        <parameters>
+            <parameter name="kernel-size" label="Taille du noyau" type="slider" range="0-30"></parameter>
+        </parameters>
+    </algorithm>
 </algorithms>
